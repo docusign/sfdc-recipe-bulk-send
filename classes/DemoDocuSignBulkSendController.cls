@@ -104,7 +104,7 @@ global class DemoDocuSignBulkSendController {
                     
                     if (csvUploadResponse.statusCode == 200) {
                         
-                        result = new Results('success', 'Envelope was created successfully.', 'https://appdemo.docusign.com/prepare/' + createEnvelopeRes.envelopeId, new ErrorDetails());
+                        result = new Results('success', 'Envelope was successfully created.', 'https://appdemo.docusign.com/prepare/' + createEnvelopeRes.envelopeId, new ErrorDetails());
                         return result;
                         
                     } else {
@@ -162,7 +162,7 @@ global class DemoDocuSignBulkSendController {
                     
                     if (csvUploadResponse.statusCode == 200) {
                         
-                        result = new Results('success', 'Envelope was created successfully.', 'https://appdemo.docusign.com/prepare/' + createEnvelopeRes.envelopeId, new ErrorDetails());
+                        result = new Results('success', 'Envelope was successfully created.', 'https://appdemo.docusign.com/prepare/' + createEnvelopeRes.envelopeId, new ErrorDetails());
                         return result;
                         
                     } else {
@@ -307,7 +307,7 @@ global class DemoDocuSignBulkSendController {
                                     }
                                 }
                                 
-                                if (!emailSet.contains(dataCellList.get(emailIndex).getLabel())) {
+                                if (!emailSet.contains(dataCellList.get(emailIndex).getLabel()) && dataCellList.get(emailIndex).getLabel() != '-' && recipientName != '') {
                                     csvFile += recipientName + ',' + dataCellList.get(emailIndex).getLabel() + '\n';
                                     emailSet.add(dataCellList.get(emailIndex).getLabel());
                                 }

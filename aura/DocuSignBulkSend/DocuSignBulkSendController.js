@@ -90,13 +90,13 @@
                     }
                     
                 } else if(response.getState() === "ERROR") {
-                    helper.showToast(cmp, evt, helper, "error", "ERROR", "Unexpected error.");
+                    helper.showToast(cmp, evt, helper, "error", "ERROR", "Unexpected Error.");
                 }
                 
             });
             $A.enqueueAction(action);
         } else {
-            helper.showToast(cmp, evt, helper, "warning", "Warning", "Please select a report.");
+            helper.showToast(cmp, evt, helper, "warning", "Warning", "Please select Report.");
         }
         
     }

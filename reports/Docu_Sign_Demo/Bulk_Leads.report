@@ -34,7 +34,7 @@
         <value>1</value>
     </params>
     <reportType>LeadList</reportType>
-    <scope>user</scope>
+    <scope>org</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
         <dateColumn>CREATED_DATE</dateColumn>

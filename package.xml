@@ -5,16 +5,12 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>*</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
         <members>DocuSignBulkDemoApp</members>
         <members>DocuSignBulkSend</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>Docu_Sign_Bulk_Send_Demo</members>
+        <members>DocuSign_Bulk_Send_Demo</members>
         <name>CustomApplication</name>
     </types>
     <types>
