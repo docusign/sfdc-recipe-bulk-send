@@ -9,14 +9,26 @@
     <columns>
         <field>EMAIL</field>
     </columns>
+    <filter>
+        <criteriaItems>
+            <column>EMAIL</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>EMAIL</column>
+            <operator>notContain</operator>
+            <value>,!,@,#,$,%,^,&amp;,*,(,),{,},[,],&quot;,&apos;,\,|,?,&lt;,&gt;&quot;</value>
+        </criteriaItems>
+    </filter>
     <format>Tabular</format>
-    <name>Report For Unit Test Bulk Demo Send</name>
+    <name>DocuSign Bulk Send Demo Report</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
     <reportType>ContactList</reportType>
-    <scope>my</scope>
+    <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
         <dateColumn>CREATED_DATE</dateColumn>

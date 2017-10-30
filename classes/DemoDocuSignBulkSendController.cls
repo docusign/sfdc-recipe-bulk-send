@@ -43,7 +43,7 @@ global class DemoDocuSignBulkSendController {
     }
     
     @RemoteAction
-    global static Results bulkSendPreview(String reportId) {
+    global static Results bulkSendDemoPreview(String reportId) {
         String bulkRecipientsCSV = '';
         Results result;
         RecipientsInfo recipientsInfo;
@@ -58,7 +58,7 @@ global class DemoDocuSignBulkSendController {
     }
     
     @AuraEnabled
-    global static Results bulkSendPreviewAura(String reportId) {
+    global static Results bulkSendDemoPreviewAura(String reportId) {
         String bulkRecipientsCSV = '';
         Results result;
         RecipientsInfo recipientsInfo;
@@ -72,7 +72,7 @@ global class DemoDocuSignBulkSendController {
     }
     
     @RemoteAction
-    global static Results bulkSend(String bulkRecipientsCSV) {
+    global static Results bulkSendDemo(String bulkRecipientsCSV) {
         
         Results result;
         String baseUrl = '';
@@ -128,7 +128,7 @@ global class DemoDocuSignBulkSendController {
     }
     
     @AuraEnabled
-    global static Results bulkSendAura(String bulkRecipientsCSV) {
+    global static Results bulkSendDemoAura(String bulkRecipientsCSV) {
         
         System.debug(bulkRecipientsCSV);
         

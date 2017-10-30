@@ -5,12 +5,16 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>*</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
         <members>DocuSignBulkDemoApp</members>
         <members>DocuSignBulkSend</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>DocuSign_Bulk_Send_Demo</members>
+        <members>Docu_Sign_Bulk_Send_Demo</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -35,19 +39,9 @@
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>docusign</members>
-        <name>RemoteSiteSetting</name>
-    </types>
-    <types>
         <members>Docu_Sign_Demo</members>
-        <members>Docu_Sign_Demo/Bulk_Leads</members>
         <members>Docu_Sign_Demo/Report_For_Unit_Test_Bulk_Demo_Send</members>
-        <members>Docu_Sign_Demo/Test_Report</members>
         <name>Report</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
     </types>
     <version>37.0</version>
 </Package>

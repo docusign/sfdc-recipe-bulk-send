@@ -21,14 +21,14 @@ public class DemoDocuSignBulkSendControllerTest {
                                     WHERE DeveloperName = 'Report_For_Unit_Test_Bulk_Demo_Send'];
         
         Test.setMock(HttpCalloutMock.class, new AuthenticationMock());
-        
+         
         Test.startTest();
         
-        DemoDocuSignBulkSendController.bulkSendPreview(reportList[0].Id);
-        DemoDocuSignBulkSendController.bulkSendPreviewAura(reportList[0].Id);
+        DemoDocuSignBulkSendController.bulkSendDemoPreview(reportList[0].Id);
+        DemoDocuSignBulkSendController.bulkSendDemoAura(reportList[0].Id);
         
-        DemoDocuSignBulkSendController.bulkSend(csvFile);
-        DemoDocuSignBulkSendController.bulkSendAura(csvFile);
+        DemoDocuSignBulkSendController.bulkSendDemo(csvFile);
+        DemoDocuSignBulkSendController.bulkSendDemoAura(csvFile);
         
         DemoDocuSignBulkSendController.getWrapReportsList();
 

@@ -24,7 +24,7 @@
         var reportId = '';
         var res;
         var wrapReportsList = cmp.get("v.wrapReportsList")
-        var action = cmp.get("c.bulkSendPreviewAura");
+        var action = cmp.get("c.bulkSendDemoPreviewAura");
         
         for (var i = 0; i < wrapReportsList.length; i++) {
             if (wrapReportsList[i].isSelected) {
@@ -54,7 +54,7 @@
     
     bulkSend: function(cmp, evt, helper) {
         
-        var action = cmp.get("c.bulkSendAura");
+        var action = cmp.get("c.bulkSendDemoAura");
         var wrapReportsList = cmp.get("v.wrapReportsList");
         var array = [];
         

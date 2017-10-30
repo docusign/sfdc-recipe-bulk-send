@@ -1,0 +1,331 @@
+<apex:page controller="DemoDocuSignBulkSendController" sidebar="false" >
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js">
+    </script>
+    
+    <style>
+    	body {
+        	background-color: #fdfdfd;
+        }
+    </style>
+    
+    <apex:form >
+        <apex:slds />
+         
+        <!-- ERROR TOAST -->
+        <div id="error-toast" class="demo-only toast_item" style="height: 4rem;display: none;" >
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                            <use href="{!$Resource.LightningDesingSystem + '/assets/icons/utility-sprite/svg/symbols.svg#error'}" />
+                        </svg>
+                    </span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small" id="error-toast-message"></h2>
+                        <p id="error-details">Here's some detail of what happened, being very descriptive and transparent.</p>
+                    </div>
+                    <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close" onclick="hideToast();return false;">
+                        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                            <use href="{!$Resource.LightningDesingSystem + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" />
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- / ERROR TOAST -->
+         
+        <!-- WARNING TOAST -->        
+        <div class="slds-notify_container toast_item" id="warning-toast" style=" display: none;">
+            <div class="slds-notify slds-notify--toast slds-theme--warning" role="alert">
+                <span class="slds-assistive-text">Success</span>
+                <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close" onclick="hideToast();return false;">
+                    <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                        <use href="{!$Resource.LightningDesingSystem + '/assets/icons/utility-sprite/svg/symbols.svg#close' }"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-notify__content slds-grid">
+                    <svg class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex" aria-hidden="true">
+                        <use href="{!$Resource.LightningDesingSystem + '/assets/icons/utility-sprite/svg/symbols.svg#notification'}"></use>
+                    </svg>
+                    <div class="slds-col slds-align-middle">
+                        <h2 class="slds-text-heading--small" id="warning-toast-message"></h2>
+                        <p id="warning-details"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / WARNING TOAST -->
+        
+        <!-- SUCCESS TOAST -->
+        <div class="slds-notify_container toast_item" id="success-toast" style=" display: none;">
+            <div class="slds-notify slds-notify--toast slds-theme--success" role="alert">
+                <span class="slds-assistive-text">Success</span>
+                <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close" onclick="hideToast();return false;">
+                    <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                        <use href="{!$Resource.LightningDesingSystem + '/assets/icons/utility-sprite/svg/symbols.svg#close' }"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-notify__content slds-grid">
+                    <svg class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex" aria-hidden="true">
+                        <use href="{!$Resource.LightningDesingSystem + '/assets/icons/utility-sprite/svg/symbols.svg#notification'}"></use>
+                    </svg>
+                    <div class="slds-col slds-align-middle">
+                        <h2 class="slds-text-heading--small" id="success-toast-message"></h2>
+                        <p id="success-details"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / SUCCESS TOAST -->
+        
+        <!-- PAGE HEADER -->
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-report" title="Description of icon when needed">
+                        <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                            <use href="{!$Resource.LightningDesingSystem + '/assets/icons/standard-sprite/svg/symbols.svg#report'}" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-title--caps slds-line-height--reset">Reports</p>
+                    <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="My Contacts">Reports from: {! folderName }</h1>
+                </div>
+            </div>
+        </div>
+        
+        <!-- / PAGE HEADER -->
+        
+        <!-- SPINNER -->
+        <div class="slds-spinner_container" id="spinner" style="display: none;">
+            <div role="status" class="slds-spinner slds-spinner--medium slds-spinner--brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+        <!-- / SPINNER -->
+        
+        <div id="select_reports_view">
+            
+            <!-- BODY -->
+            <div class="" style="padding: 25px; background-color: #fdfdfd;">
+                <p class="slds-line-height--reset">Choose Reports and send Documents</p><br/>
+                <p class="slds-line-height--reset">Bulk could send up to 2000 contacts</p>
+            </div>
+            <div class="slds-modal__content slds-grid slds-grow" id="modal-content-id-1">
+                <div class="slds-scrollable slds-grow">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="reports-table">
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th scope="col" style="width: 3.75rem;"></th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Report Name">Report Name</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:variable var="count" value="{! 0 }" /> 
+                            <apex:repeat var="report" value="{! wrapReportsList }">
+                                
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell" tabindex="0" class="slds-text-align_right" style="width: 3.75rem;">
+                                        <input type="radio" name="options" id="{! report.reportItem.Id }" class="report-radio" value="on" />
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="ANTLY">
+                                            <a target="_blank" href="/{! report.reportItem.Id }">{! report.reportItem.Name }</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <apex:variable value="{! count + 1 }" var="count"/>  
+                            </apex:repeat>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="slds-grid" style="margin: 25px;">
+                <p class=" slds-line-height--reset"></p>
+            </div>
+            <!-- / BODY -->
+            
+            <!-- FOOTER -->
+            <footer class="slds-modal__footer" style="text-align: center;">
+                <apex:commandButton onclick="previewBulkSend();" styleClass="slds-button slds-button_brand submitBtn" value="Submit" reRender="false" />
+                
+            </footer>
+            <!-- / FOOTER -->
+            
+        </div>
+        
+        <div class="slds-modal__container" id="recipients_list" style="max-width: 100%; width: 100%;display: none;padding: 0;">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">DocuSign Bulk Send Recipients</h2>
+            </header>
+            
+            <div class="slds-grid" style="padding: 25px; background-color: #fdfdfd;" >
+                <p class=" slds-line-height--reset" style="width: 50%; margin-left: 25%;" id="preview_details"></p>
+            </div>
+            
+            <div class="slds-grid" style="background-color: #fdfdfd;">
+                <div class="slds-modal__content slds-p-around_medium slds-scrollable" id="modal-content-id-1" style="width: 50%; margin-left: 25%;height: 25rem;">
+                    
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="reports-table" >
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th scope="col">
+                                    <div class="slds-truncate">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate">Email</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="recipients-block">
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            <div class="slds-grid" style="padding: 25px; background-color: #fdfdfd;">
+                <p class=" slds-line-height--reset" style="width: 50%; margin-left: 25%;"></p>
+            </div>
+            <footer class="slds-modal__footer" style="text-align: center;">
+                <apex:commandButton onclick="bulkSend();" styleClass="slds-button slds-button_brand submitBtn uploadDocuments" value="Upload documents" reRender="false" style="height: 40px;width: 200px;"/>
+            </footer>
+        </div>
+        
+    </apex:form>
+    
+    
+    <script>
+
+        var csvFile = "";
+    
+    	function uploadFiles() {
+            window.open($("#linkToDocuSign").html());
+        }
+    
+    	function bulkSend() {
+            $("#spinner").css("display", "block");
+            demoBulkSend();
+        }
+        
+        function previewBulkSend() {
+            
+            var report;
+            var rows;
+            
+            $("#spinner").css("display", "block");
+            $('input[type="checkbox"]').attr("disabled", "true");
+            
+            $(".report-radio").each(function() {
+
+                if ( $(this).prop( "checked" ) ) {
+                    report = $(this).attr("id");
+                }
+                
+            });
+            
+            if (report) {
+                
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.DemoDocuSignBulkSendController.bulkSendDemoPreview}',
+                    report, 
+                    function(result, event){
+                        if (event.status && result.status == 'success') {
+                            
+                            for (i = 0; i < result.recipientsInfo.recipientsList.length; i++) {
+                                
+                                rows += '<tr class="slds-hint-parent">' 
+                                     +  '<td role="gridcell">'
+                                  	 +  '<div class="slds-truncate">'
+                                     +  result.recipientsInfo.recipientsList[i].name
+                                 	 +  '</div>'
+                                	 +  '</td>'
+                                	 +  '<td role="gridcell">'
+                                	 +  '<div class="slds-truncate" title="ANTLY">'
+                                	 +  result.recipientsInfo.recipientsList[i].email
+                                     +  '</div>'
+                                	 +  '</td>'
+                                	 +  '</tr>';
+                            }	
+
+                            csvFile = result.recipientsInfo.csvFile;
+                            
+                            $("#recipients-block").append(rows);
+                            $("#select_reports_view").css("display", "none");
+                            $("#recipients_list").css("display", "block");
+                            $("#preview_details").html("Preview " + result.recipientsInfo.recipientsList.length + " from " + result.recipientsInfo.actualCount);
+                            $("#spinner").css("display", "none");
+                        
+                        }
+                    });
+                
+            } else {
+                showResultToast('warning', 'Please select Report.');
+            }
+        }
+        
+        function bulkSend() { 
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.DemoDocuSignBulkSendController.bulkSendDemo}',
+                csvFile, 
+                function(result, event){
+                    
+                    console.log(result.errorDetail);
+                        console.log(result.status);
+                    
+                    if (result.status == 'success') {
+                        
+                        showResultToast(result.status, result.message + '<br/><a style="font-size: 0.87em;" href="' + result.redirectUrl + '" target="_blank"">Move to Upload documents</a>');
+                        $("#spinner").css("display", "none");
+                        $(".submitBtn").css("display", "none");
+                        $(".uploadDocuments").css("display", "none");
+
+                        window.open( result.redirectUrl, '_blank' );
+                        
+                    } else if (result.status == 'error') {
+                        
+                        
+                        showResultToast(result.status, result.errorDetail.errorCode, result.errorDetail.message);
+                        $("#spinner").css("display", "none");
+                        $('input[type="checkbox"]').removeAttr("disabled");
+                    }
+                    
+                }, 
+                {escape: true}
+            );
+
+        }
+        
+        function showResultToast(status, message) {
+            $("#spinner").css("display", "none");
+            $("#" + status + "-toast-message").html(message);
+            $("#" + status + "-toast").css("display", "block");
+        }
+        
+        function showResultToast(status, message, errorDetails) {
+            $("#spinner").css("display", "none");
+            $("#" + status + "-toast-message").html(message);
+            $("#error-details").html(errorDetails);
+            $("#" + status + "-toast").css("display", "block");
+        }
+        
+        function hideToast() {
+            $(".toast_item").css("display", "none");
+            $('input[type="checkbox"]').removeAttr("disabled");
+        }
+    
+    </script>
+    
+</apex:page>
