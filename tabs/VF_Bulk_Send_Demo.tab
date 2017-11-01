@@ -3,5 +3,5 @@
     <label>VF Bulk Send Demo</label>
     <mobileReady>false</mobileReady>
     <motif>Custom23: Mail</motif>
-    <page>DemoDocuSignBulkSend</page>
+    <page>DocuSignBulkSendDemo</page>
 </CustomTab>

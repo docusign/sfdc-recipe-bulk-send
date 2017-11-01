@@ -33,7 +33,11 @@ global class DocuSignRequests {
         return dsResponse;
     }
     
-    public static DocuSignResponse createEnvelope(DocuSign_Signing_Recipe_Integration__mdt integrationMdt, String baseUrl){
+    public static DocuSignResponse createEnvelope(DocuSign_Signing_Recipe_Integration__mdt integrationMdt, String baseUrl) {
+        return createEnvelope(integrationMdt, baseUrl, 'Salesforce Demo');
+    }
+
+    public static DocuSignResponse createEnvelope(DocuSign_Signing_Recipe_Integration__mdt integrationMdt, String baseUrl, String subject){
         
         DocuSignResponse dsResponse = new DocuSignResponse();
         CreateEnvelopeResponse createdEnvelopedRes;
@@ -49,7 +53,7 @@ global class DocuSignRequests {
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('X-DocuSign-Authentication', authHeader);
         
-        Envelope envelopeItem = new Envelope('created', 'demo');
+        Envelope envelopeItem = new Envelope('created', subject);
         
         req.setBody(JSON.serialize(envelopeItem));
         
