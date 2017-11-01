@@ -9,12 +9,12 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>DocuSignBulkDemoApp</members>
-        <members>DocuSignBulkSend</members>
+        <members>DocuSignBulkSendDemo</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>Docu_Sign_Bulk_Send_Demo</members>
+        <members>DocuSign_Bulk_Send_Demo</members>
+        <members>DocuSign_Bulk_Send_Demo_Lightning</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -26,22 +26,29 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Lightning_Bulk_Send_Demo</members>
-        <members>VF_Bulk_Send_Demo</members>
+        <members>*</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>Bulk_Send_Demo</members>
-        <name>FlexiPage</name>
+        <members>*</members>
+        <name>NamedCredential</name>
     </types>
     <types>
         <members>*</members>
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>Docu_Sign_Demo</members>
-        <members>Docu_Sign_Demo/Report_For_Unit_Test_Bulk_Demo_Send</members>
+        <members>DocuSignSandboxAPI</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+    <types>
+        <members>DocuSign_Demo</members>
+        <members>DocuSign_Demo/DocuSign_Bulk_Send_Demo_Report</members>
         <name>Report</name>
     </types>
-    <version>37.0</version>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <version>41.0</version>
 </Package>

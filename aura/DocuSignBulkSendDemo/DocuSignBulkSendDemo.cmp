@@ -1,0 +1,136 @@
+<aura:component controller="DocuSignBulkSendDemoController"
+                implements="flexipage:availableForAllPageTypes,force:appHostable" 
+                access="global">
+    
+    <ltng:require styles="{!$Resource.LightningDesingSystem  + '/assets/styles/salesforce-lightning-design-system.css'}"/>
+    
+    <aura:attribute name="wrapReportsList" type="DocuSignBulkSendDemoController.Wrapper[]"/>
+    <aura:attribute name="recipientsList" type="DocuSignBulkSendDemoController.RecipientWrap"/>
+    <aura:attribute name="csvFile" type="String" default=""/>
+    <aura:attribute name="isReportList" type="Boolean" default="true"/>
+    <aura:attribute name="folderName" type="String" default="DocuSign Demo"/>
+
+    <aura:attribute name="index" type="integer" default="0"/>
+    <aura:attribute name="redirectURL" type="String" default=""/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    
+    <!-- PAGE HEADER -->
+    <div class="slds-page-header">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <p class="slds-text-title--caps slds-line-height--reset">Reports</p>
+                <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="My Contacts">Reports from: {!v.folderName}</h1>
+            </div>
+        </div>
+    </div>
+    <!-- / PAGE HEADER -->
+    
+    <aura:if isTrue="{!v.isReportList}">
+        
+        <div class="slds-grid" style="margin: 25px;">
+            <p class=" slds-line-height--reset">Choose Reports and Send Documents</p>
+        </div>
+        
+        <div class="slds-modal__content slds-grid slds-grow" id="modal-content-id-1" style="min-height: 200px;">
+            <div class="slds-scrollable slds-grow">
+                <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title--caps">
+                            <th scope="col" style="width: 3.75rem;"></th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Report Name">Report Name</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{! v.wrapReportsList }" var="item" indexVar="index" >
+                            <tr>
+                                <td role="gridcell" tabindex="0" class="slds-text-align_right" style="width: 3.75rem;">
+                                    <ui:inputRadio name="report" label="" value="{! item.isSelected }"/>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title="ANTLY">
+                                        <a target="_blank" href="{! '/' + item.reportItem.Id }">{! item.reportItem.Name }</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <footer class="slds-modal__footer">
+            
+            <ui:button aura:id="Submit"
+                       buttonTitle="Click to create bulk send envelope."
+                       class="slds-button slds-button--brand"
+                       label="Submit"
+                       press="{! c.bulkSendPreview }">
+            </ui:button>
+            
+            <aura:if isTrue="{!v.truthy}">
+                <ui:outputURL value="{! v.redirectURL != '' }" label="Upload Documents"/>
+            </aura:if>
+            
+            
+        </footer>
+        
+        <aura:set attribute="else">
+
+        <div class="slds-modal__container" id="recipients_list" style="max-width: 100%; width: 100%;padding: 0;">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">DocuSign Bulk Send Recipients</h2>
+            </header>
+            
+            <div class="slds-grid" style="padding: 25px; background-color: #fdfdfd;" >
+                <p class=" slds-line-height--reset" style="width: 50%; margin-left: 25%;" id="preview_details"></p>
+            </div>
+            
+            <div class="slds-grid" style="background-color: #fdfdfd;">
+                <div class="slds-modal__content slds-p-around_medium slds-scrollable" id="modal-content-id-1" style="width: 50%; margin-left: 25%;height: 25rem;">
+                    
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="reports-table" >
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th scope="col">
+                                    <div class="slds-truncate">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate">Email</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="recipients-block">
+                            <aura:iteration items="{! v.recipientsList }" var="item" >
+                                <tr>
+                                    <td scope="col">
+                                        <div class="slds-truncate">{! item.name }</div>
+                                    </td>
+                                    <td scope="col">
+                                        <div class="slds-truncate">{! item.email }</div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            <div class="slds-grid" style="padding: 25px; background-color: #fdfdfd;">
+                <p class=" slds-line-height--reset" style="width: 50%; margin-left: 25%;"></p>
+            </div>
+            <footer class="slds-modal__footer" style="text-align: center;">
+                <ui:button aura:id="bulkSend"
+                           buttonTitle="Click to create bulk send envelope."
+                           class="slds-button slds-button--brand"
+                           label="Upload documents"
+                           press="{! c.bulkSend }">
+                </ui:button>
+            </footer>
+        </div>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>
